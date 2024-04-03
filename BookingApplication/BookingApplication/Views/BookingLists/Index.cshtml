@@ -1,0 +1,59 @@
+﻿@model BookingApplication.Models.BookingListDto
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+    <div class="row-4">
+        <a asp-controller="BookingLists" asp-action="Order">Book now</a>
+    </div>
+    <div class="row m-4">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Reservation Name</th>
+                    <th scope="col">Number of nights</th>
+                    <th scope="col">Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.BookReservations.Count == 0)
+                {
+                    <tr>
+                        <td colspan="5">No active reservations</td>
+                    </tr>
+                }
+                else
+                {
+                    @for (int i = 0; i < Model.BookReservations.Count; i++)
+                    {
+                        var item = Model.BookReservations[i];
+
+                        <tr>
+                            <th scope="row">@(i + 1)</th>
+                            <td>@item.Reservation.Apartment.ApartmentName</td>
+                            <td>@item.NumberOfNights</td>
+                            <td>$@item.Reservation.Apartment.Price_per_night</td>
+                            <td><a asp-controller="BookingLists" asp-action="DeleteFromShoppingCart" asp-route-id="@item.ReservationId" >Delete From Booking List</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+            <tfoot class="thead-dark">
+                <tr>
+                    <th scope="col">TotalPrice:</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col">$@Model.TotalPrice</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
